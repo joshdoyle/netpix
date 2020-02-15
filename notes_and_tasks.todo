@@ -3,5 +3,16 @@ netpix dev notes:
 Decisions:
 - Decided to call external apis in Flask as data is relevant to my api. I will use the package [Requests](https://requests.readthedocs.io/en/master/).
 
-Development:
+Development Todos:
+ ✔ Create environment with "virtualenv .env -p python3" @done (20-02-15 11:39)
+ ✔ Source the environment with "source .env/bin/activate" @done (20-02-15 11:39)
+ ✔ Copy requirements.txt from previous project @done (20-02-15 11:39)
+ ✔ Run "pip3 install -r requirements.txt" @done (20-02-15 11:39)
+ ✔ pip3 freeze > requirements.txt @done (20-02-15 11:45)
+ ✔ Create models.py @done (20-02-15 11:57)
  ☐ 
+
+ Future Todos:
+  ☐ prettify code
+  ☐ lint code
+  ☐ ensure compliance with pep8

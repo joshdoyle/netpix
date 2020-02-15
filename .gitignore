@@ -1,2 +1,6 @@
 netpix.sublime-project
 netpix.sublime-workspace
+Tutorial.todo
+.env
+__pycache__
+*.pyc
