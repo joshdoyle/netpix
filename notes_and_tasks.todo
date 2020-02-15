@@ -1,0 +1,7 @@
+netpix dev notes:
+
+Decisions:
+- Decided to call external apis in Flask as data is relevant to my api. I will use the package [Requests](https://requests.readthedocs.io/en/master/).
+
+Development:
+ ☐ 
