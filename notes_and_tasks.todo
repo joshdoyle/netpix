@@ -19,4 +19,4 @@ Development Todos:
   ☐ ensure compliance with pep8
   ☐ research import approaches
   ☐ make files have a consistent flow. Routes are in consistent order. App is right. Comments, headers are consistent. Add docstrings.
-  ☐ 
+  ☐ research import g. It looks like we only set it for a global variable to refer to db
