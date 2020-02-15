@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, g
 
 
-from resources.show_collections import show_collections
+# from resources.show_collections import show_collections
 from resources.collections import collections
 
 import models
@@ -11,7 +11,7 @@ PORT = 8000
 
 app = Flask(__name__)
 
-app.register_blueprint(show_collections, url_prefix='/api/v1/show_collections')
+# app.register_blueprint(show_collections, url_prefix='/api/v1/show_collections')
 app.register_blueprint(collections, url_prefix='/api/v1/collections')
 
 @app.before_request

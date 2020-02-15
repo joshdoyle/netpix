@@ -15,7 +15,6 @@ class User(Model):
   		database = DATABASE
 
 class Collection(Model):
-	user = ForeignKeyField(User, backref='Collection')
 	name = CharField()
 	description = CharField()
 	category = CharField()

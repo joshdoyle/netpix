@@ -1,5 +1,6 @@
 import models
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
+from playhouse.shortcut import model_to_dict
 
 show_collections = Blueprint('show_collections', 'show_collections')
 
@@ -14,4 +15,6 @@ def shows_index():
 def create_show():
 	payload = request.get_json()
 	print(payload)
-	return 'in show_collections create route'
+	show_collection = models.ShowCollection.create(
+		
+	)
