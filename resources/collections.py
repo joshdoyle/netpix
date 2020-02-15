@@ -9,8 +9,15 @@ collections = Blueprint('collections', 'collections')
 # Index
 @collections.route('/', methods=['GET'])
 def collections_index():
-	print('TELLY: in collections route')
-	return "in collections index"
+	collections = models.Collection.select()
+	collections_dict = [model_to_dict(c) for c in collections]
+
+	return jsonify(
+		data=collections_dict,
+		message=f"Retrieved {len(collections_dict)} collections.",
+		status=200
+	), 200
+
 
 # Create
 @collections.route('/', methods=['POST'])
@@ -27,4 +34,5 @@ def create_collection():
 	print('here is the collection:', collection_dict)
 	return jsonify(
 		data=collection_dict,
-		status={'message': 'Created collection'}), 201
+		status={'message': 'Created collection'}
+	), 201
