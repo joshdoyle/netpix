@@ -10,9 +10,13 @@ Development Todos:
  ✔ Run "pip3 install -r requirements.txt" @done (20-02-15 11:39)
  ✔ pip3 freeze > requirements.txt @done (20-02-15 11:45)
  ✔ Create models.py @done (20-02-15 11:57)
- ☐ 
+ ✔ Create app.py @done (20-02-15 13:06)
+ ✔ update .gitignore with `__pycache__` and ` *.pyc` @done (20-02-15 13:06)
 
  Future Todos:
   ☐ prettify code
   ☐ lint code
   ☐ ensure compliance with pep8
+  ☐ research import approaches
+  ☐ make files have a consistent flow. Routes are in consistent order. App is right. Comments, headers are consistent. Add docstrings.
+  ☐ 
