@@ -18,6 +18,18 @@ def collections_index():
 		status=200
 	), 200
 
+# Show
+@collections.route('/<id>', methods=['GET'])	
+def get_collection(id):
+	collection = models.Collection.get_by_id(id)
+	collection_dict = model_to_dict(collection)
+
+	return jsonify(
+		data=collection_dict,
+		message=f"Found collection with id: {collection.id}.",
+		status=200
+	), 200
+
 
 # Create
 @collections.route('/', methods=['POST'])
