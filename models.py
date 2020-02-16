@@ -30,7 +30,7 @@ class Show(Model):
 
 class ShowCollection(Model):
 	collection_id = ForeignKeyField(Collection, backref='ShowCollection')
-	show_id = ForeignKeyField(Show, backref='ShowCollection')
+	show_id = IntegerField()
 	user_description = CharField(unique=True)
 	order = IntegerField()
 
