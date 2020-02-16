@@ -4,6 +4,7 @@ from flask import Flask, jsonify, g
 from resources.collections import collections
 from resources.show_collections import show_collections
 from resources.shows import shows
+from resources.search import search
 
 import models
 
@@ -15,6 +16,7 @@ app = Flask(__name__)
 app.register_blueprint(show_collections, url_prefix='/api/v1/show_collections')
 app.register_blueprint(collections, url_prefix='/api/v1/collections')
 app.register_blueprint(shows, url_prefix='/api/v1/shows')
+app.register_blueprint(search, url_prefix='/api/v1/search')
 
 @app.before_request
 def before_request():
