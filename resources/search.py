@@ -1,5 +1,5 @@
 import config, models
-import requests
+import requests, json
 from flask import Blueprint, request, jsonify
 from playhouse.shortcuts import model_to_dict
 # Note: 'request' is from flask; 'requests' is from Request: HTTP for Humans
@@ -16,7 +16,6 @@ def search_index():
 # https://api.themoviedb.org/3/search/multi?api_key=8092585d243569d68c08aeb452c21fc6&language=en-US&query=test&page=1&include_adult=false
 # images: https://image.tmdb.org/t/p/w500/kqjL17yufvn9OVLyXYpvtyrFfak.jpg
 		query = request.args.get('query')
-		print('this is the query from the query string', query)
 
 		payload = {
 			'api_key': config.TMDB_API_KEY, 
@@ -27,10 +26,32 @@ def search_index():
 		}
 
 		r = requests.get('https://api.themoviedb.org/3/search/multi?', params=payload)
-		print(r.url)
+		response_dict = json.loads(r.text)
+
+		data_dict = {
+			"page": response_dict['page'],
+			"total_results": response_dict['total_results'],
+			"total_pages": response_dict['total_pages'],
+			"results": [] 
+		}
+		
+		for result in response_dict['results']:
+
+			title = result['name'] if result['media_type'] == "tv" else result['title']	
+
+			result_dict = {
+				"id": result['id'],
+				"title": title,
+				"poster_path": result['poster_path'],
+				"backdrop_path": result['backdrop_path'],
+				"media_type": result['media_type'],
+				"overview": result['overview']
+			}
+			data_dict['results'].append(result_dict)
+
 
 		return jsonify(
-			data=r.text,
+			data=data_dict,
 			message=f"Retrieved data from TMDB.",
 			status=200
 		), 200

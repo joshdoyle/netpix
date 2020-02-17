@@ -22,3 +22,7 @@ Development Todos:
   ☐ research import g. It looks like we only set it for a global variable to refer to db
   ☐ Implement optimistic locking and timestamps
   ☐ Move api key to .env
+  ☐ Add functionality to update data stored in Shows table.
+  ☐ add timeouts to api calls
+  ☐ add pagination
+  ☐ resolve json and jsonify
