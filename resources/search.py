@@ -23,7 +23,7 @@ def search_index():
 			'page': '1',
 			'include_adult': 'false'
 		}
-
+		# todo: move url to constant
 		r = requests.get('https://api.themoviedb.org/3/search/multi?', params=payload)
 		response_dict = json.loads(r.text)
 

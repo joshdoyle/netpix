@@ -35,7 +35,6 @@ class ShowCollection(Model):
 	collection_id = ForeignKeyField(Collection)
 	show_id = ForeignKeyField(Show)
 	user_description = CharField()
-	order = IntegerField()
 
 	class Meta:
   		database = DATABASE

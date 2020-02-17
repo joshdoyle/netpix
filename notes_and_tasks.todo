@@ -27,6 +27,7 @@ Development Todos:
   ☐ add pagination
   ☐ resolve json and jsonify
   ☐ remove models. by importing if possible
+  ☐ DRY it up
 
   References:
     TMDB Image information

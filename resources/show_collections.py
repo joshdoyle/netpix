@@ -8,7 +8,7 @@ show_collections = Blueprint('show_collections', 'show_collections')
 ########## Routes ############
 
 # Index
-# Index may not be necessary
+# I DON'T THINK WE NEED THIS INDEX
 # @show_collections.route('/', methods=['GET'])
 # def show_collections_index():
 # 	try:
@@ -18,8 +18,7 @@ show_collections = Blueprint('show_collections', 'show_collections')
 # 		return jsonify(
 # 			data=show_collections_dicts,
 # 			message=f"Retrieved {len(show_collections_dicts)} show_collections.",
-# 			status=200,
-# 			debug="hello"
+# 			status=200
 # 		), 200
 # 	except Exception as e:
 # 		raise e
@@ -107,8 +106,6 @@ def update_show_collection(id):
 	payload = request.get_json()
 
 	show_collection = models.ShowCollection.get_by_id(id)
-	show_collection.collection_id = payload['collection_id'] if 'collection_id' in payload else None
-	show_collection.show_id = payload['show_id'] if 'show_id' in payload else None
 	show_collection.user_description = payload['user_description'] if 'user_description' in payload else None
 	show_collection.order = payload['order'] if 'order' in payload else None
 
