@@ -28,6 +28,7 @@ Development Todos:
   ☐ resolve json and jsonify
   ☐ remove models. by importing if possible
   ☐ DRY it up
+  ☐ prettify
 
   References:
     TMDB Image information

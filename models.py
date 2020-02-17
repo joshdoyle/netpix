@@ -1,10 +1,11 @@
 import datetime
 from peewee import *
+from flask_login import UserMixin
 
 DATABASE = SqliteDatabase('telly.sqlite')
 
 ############# Models ####################
-class User(Model):
+class User(UserMixin, Model):
 	username = CharField(unique=True)
 	email = CharField(unique=True) 
 	password = CharField()
