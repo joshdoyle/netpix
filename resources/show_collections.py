@@ -29,25 +29,7 @@ show_collections = Blueprint('show_collections', 'show_collections')
 def get_show_collection(id):
 	try:
 
-		show_collection_dict = {
-			"collection_id": id,
-			"records_returned": 0,
-			"shows": []
-		}
-		
-		shows = \
-			Show.select(ShowCollection, Show) \
-			.join(ShowCollection) \
-			.where(ShowCollection.collection_id == id)		
-
-		i = 0
-		for s in shows:
-			i += 1
-			show_dict = model_to_dict(s)
-			show_dict['user_description'] = s.showcollection.user_description
-			show_collection_dict['shows'].append(show_dict)
-
-		show_collection_dict['records_returned'] = i
+		show_collection_dict = __get_show_collection(id)
 
 		return jsonify(
 			data=show_collection_dict,
@@ -89,10 +71,11 @@ def create_show_collection():
 				order = s['order']
 			)
 			# todo: fix this query to return multiple
-		created_show_collection = models.ShowCollection.get(ShowCollection.collection_id == payload['collection_id'])	
+		# created_show_collection = models.ShowCollection.get(ShowCollection.collection_id == payload['collection_id'])	
 
-		created_show_collection_dict = model_to_dict(created_show_collection)
-		print('here is the show_collection:', created_show_collection_dict)
+		# created_show_collection_dict = model_to_dict(created_show_collection)
+		created_show_collection_dict = __get_show_collection(payload['collection_id'])
+
 		return jsonify(
 			data=created_show_collection_dict,
 			status={'message': 'Created show_collection'}
@@ -139,3 +122,31 @@ def update_show_collection(id):
 		status=200
 	), 200	
 	
+
+######### Private Functions #########
+
+# Get a single instance of Show Collection and shows. Needed by Show_Collection and Create_Collection
+def __get_show_collection(id):
+
+	show_collection_dict = {
+		"collection_id": id,
+		"records_returned": 0,
+		"shows": []
+	}
+	
+	shows = \
+		Show.select(ShowCollection, Show) \
+		.join(ShowCollection) \
+		.where(ShowCollection.collection_id == id)		
+
+	i = 0
+	for s in shows:
+		i += 1
+		show_dict = model_to_dict(s)
+		show_dict['user_description'] = s.showcollection.user_description
+		show_collection_dict['shows'].append(show_dict)
+
+	show_collection_dict['records_returned'] = i
+
+	return show_collection_dict
+
