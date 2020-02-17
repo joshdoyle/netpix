@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, g
 
-# from resources.show_collections import show_collections
 from resources.collections import collections
 from resources.show_collections import show_collections
 from resources.shows import shows

@@ -26,3 +26,4 @@ Development Todos:
   ☐ add timeouts to api calls
   ☐ add pagination
   ☐ resolve json and jsonify
+  ☐ remove models. by importing if possible

@@ -13,8 +13,7 @@ search = Blueprint('search', 'search')
 def search_index():
 	try:
 		print('in search index')
-# https://api.themoviedb.org/3/search/multi?api_key=8092585d243569d68c08aeb452c21fc6&language=en-US&query=test&page=1&include_adult=false
-# images: https://image.tmdb.org/t/p/w500/kqjL17yufvn9OVLyXYpvtyrFfak.jpg
+
 		query = request.args.get('query')
 
 		payload = {
@@ -34,21 +33,18 @@ def search_index():
 			"total_pages": response_dict['total_pages'],
 			"results": [] 
 		}
-		
+
 		for result in response_dict['results']:
-
 			title = result['name'] if result['media_type'] == "tv" else result['title']	
-
 			result_dict = {
-				"id": result['id'],
-				"title": title,
-				"poster_path": result['poster_path'],
-				"backdrop_path": result['backdrop_path'],
-				"media_type": result['media_type'],
-				"overview": result['overview']
+				"tmdb_id": result['id'],
+				"tmdb_title": title,
+				"tmdb_poster_path": result['poster_path'],
+				"tmdb_backdrop_path": result['backdrop_path'],
+				"tmdb_media_type": result['media_type'],
+				"tmdb_overview": result['overview']
 			}
 			data_dict['results'].append(result_dict)
-
 
 		return jsonify(
 			data=data_dict,

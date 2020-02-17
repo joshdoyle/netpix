@@ -1,4 +1,5 @@
 import models
+from models import ShowCollection, Show
 from flask import Blueprint, request, jsonify
 from playhouse.shortcuts import model_to_dict
 
@@ -44,23 +45,36 @@ def create_show_collection():
 		payload = request.get_json()
 		print(payload)
 
-		#Save show first
-		show = models.Show.create(
-
-		)
-
-
+		# loop the show collections
+		for s in payload['shows']:
+			# first find or add the show
+			print('this should be the show', s)
+			try:
+				show = models.Show.get(Show.tmdb_id == s['tmdb_id'])
+			except Show.DoesNotExist:
+				show = models.Show.create(
+					tmdb_id = s['tmdb_id'],
+					tmdb_title = s['tmdb_title'],
+					tmdb_poster_path = s['tmdb_poster_path'],
+					tmdb_backdrop_path = s['tmdb_backdrop_path'],
+					tmdb_media_type = s['tmdb_media_type'],
+					tmdb_overview = s['tmdb_overview']
+				)
 		
-		show_collection = models.ShowCollection.create(
-			collection_id = payload['collection_id'],
-			show_id = payload['show_id'],
-			user_description = payload['user_description'],
-			order = payload['order']
-		)
-		show_collection_dict = model_to_dict(show_collection)
-		print('here is the show_collection:', show_collection_dict)
+			# now relate the show to the collection
+			show_collection = models.ShowCollection.create(
+				collection_id = payload['collection_id'],
+				show_id = show.id,
+				user_description = s['user_description'],
+				order = s['order']
+			)
+
+		created_show_collection = models.ShowCollection.get(ShowCollection.collection_id == payload['collection_id'])	
+
+		created_show_collection_dict = model_to_dict(created_show_collection)
+		print('here is the show_collection:', created_show_collection_dict)
 		return jsonify(
-			data=show_collection_dict,
+			data=created_show_collection_dict,
 			status={'message': 'Created show_collection'}
 		), 201
 

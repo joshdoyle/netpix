@@ -9,13 +9,20 @@ shows = Blueprint('shows', 'shows')
 ########## Routes ############
 
 # Index
-# @shows.route('/', methods=['GET'])
-# def shows_index():
-# 	try:
-	
+@shows.route('/', methods=['GET'])
+def shows_index():
+	try:
+		shows = models.Show.select()
+		shows_dict = [model_to_dict(s) for s in shows]
+		print('here is the shows dict', shows_dict)
 
-# 	except Exception as e:
-# 		raise e
+		return jsonify(
+			data=shows_dict,
+			message=f"Retrieved {len(shows_dict)} shows.",
+			status=200
+		), 200
+	except Exception as e:
+		raise e
 
 
 # Show

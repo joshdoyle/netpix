@@ -20,18 +20,21 @@ class Collection(Model):
 	class Meta:
   		database = DATABASE
   		
-# Show will be both tv shows and movies
 class Show(Model):
-	apiShow_id = CharField(unique=True)
-	apiEpisode_id = CharField(unique=True)
+	tmdb_id= IntegerField(unique=True)
+	tmdb_title = CharField()
+	tmdb_poster_path = CharField()
+	tmdb_backdrop_path = CharField()
+	tmdb_media_type = CharField()
+	tmdb_overview = CharField()
 
 	class Meta:
   		database = DATABASE
 
 class ShowCollection(Model):
 	collection_id = ForeignKeyField(Collection, backref='ShowCollection')
-	show_id = IntegerField()
-	user_description = CharField(unique=True)
+	show_id = ForeignKeyField(Show, backref='ShowCollection')
+	user_description = CharField()
 	order = IntegerField()
 
 	class Meta:
@@ -43,7 +46,7 @@ def initialize():
 	DATABASE.connect()
 
 	# Only create tables if they don't exist (safe=True)
-	DATABASE.create_tables([User, Collection, ShowCollection, Show], safe=True)
+	DATABASE.create_tables([User, Collection, Show, ShowCollection], safe=True)
 
 	DATABASE.close()
 
