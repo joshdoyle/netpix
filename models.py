@@ -32,8 +32,8 @@ class Show(Model):
   		database = DATABASE
 
 class ShowCollection(Model):
-	collection_id = ForeignKeyField(Collection)
-	show_id = ForeignKeyField(Show)
+	collection_id = ForeignKeyField(Collection, backref='collections')
+	show_id = ForeignKeyField(Show, backref='show_collections')
 	user_description = CharField()
 
 	class Meta:

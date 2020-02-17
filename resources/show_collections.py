@@ -49,7 +49,6 @@ def create_show_collection():
 		# loop the show collections
 		for s in payload['shows']:
 			# first find or add the show
-			print('this should be the show', s)
 			try:
 				show = models.Show.get(Show.tmdb_id == s['tmdb_id'])
 			except Show.DoesNotExist:

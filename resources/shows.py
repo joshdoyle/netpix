@@ -7,6 +7,22 @@ from playhouse.shortcuts import model_to_dict
 shows = Blueprint('shows', 'shows')
 
 ########## Routes ############
+
+# Index
+@shows.route('/', methods=['GET'])
+def shows_index():
+	try:
+		shows = models.Show.select()
+		shows_dict = [model_to_dict(s, backrefs=True) for s in shows]
+
+		return jsonify(
+			data=shows_dict,
+			message=f"Retrieved {len(shows_dict)} shows.",
+			status=200
+		), 200
+	except Exception as e:
+		raise e
+
 # Show
 @shows.route('/<id>', methods=['GET'])	
 def get_show(id):
