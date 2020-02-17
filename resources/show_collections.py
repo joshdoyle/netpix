@@ -8,30 +8,50 @@ show_collections = Blueprint('show_collections', 'show_collections')
 ########## Routes ############
 
 # Index
-@show_collections.route('/', methods=['GET'])
-def show_collections_index():
-	try:
-		show_collections = models.ShowCollection.select()
-		show_collections_dicts = [model_to_dict(c) for c in show_collections]
+# Index may not be necessary
+# @show_collections.route('/', methods=['GET'])
+# def show_collections_index():
+# 	try:
+# 		show_collections = models.ShowCollection.select()
+# 		show_collections_dicts = [model_to_dict(c) for c in show_collections]
 
-		return jsonify(
-			data=show_collections_dicts,
-			message=f"Retrieved {len(show_collections_dicts)} show_collections.",
-			status=200
-		), 200
-	except Exception as e:
-		raise e
+# 		return jsonify(
+# 			data=show_collections_dicts,
+# 			message=f"Retrieved {len(show_collections_dicts)} show_collections.",
+# 			status=200,
+# 			debug="hello"
+# 		), 200
+# 	except Exception as e:
+# 		raise e
 
 # Show
 @show_collections.route('/<id>', methods=['GET'])	
 def get_show_collection(id):
 	try:
-		show_collection = models.ShowCollection.get_by_id(id)
-		show_collection_dict = model_to_dict(show_collection)
+
+		show_collection_dict = {
+			"collection_id": id,
+			"records_returned": 0,
+			"shows": []
+		}
+		
+		shows = \
+			Show.select(ShowCollection, Show) \
+			.join(ShowCollection) \
+			.where(ShowCollection.collection_id == id)		
+
+		i = 0
+		for s in shows:
+			i += 1
+			show_dict = model_to_dict(s)
+			show_dict['user_description'] = s.showcollection.user_description
+			show_collection_dict['shows'].append(show_dict)
+
+		show_collection_dict['records_returned'] = i
 
 		return jsonify(
 			data=show_collection_dict,
-			message=f"Found show_collection with id: {show_collection.id}.",
+			message=f"Found shows included in collection: {id}.",
 			status=200
 		), 200
 	except Exception as e:
@@ -68,7 +88,7 @@ def create_show_collection():
 				user_description = s['user_description'],
 				order = s['order']
 			)
-
+			# todo: fix this query to return multiple
 		created_show_collection = models.ShowCollection.get(ShowCollection.collection_id == payload['collection_id'])	
 
 		created_show_collection_dict = model_to_dict(created_show_collection)
