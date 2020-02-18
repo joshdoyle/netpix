@@ -37,6 +37,7 @@ class ShowCollection(Model):
 	collection_id = ForeignKeyField(Collection, backref='collections')
 	show_id = ForeignKeyField(Show, backref='show_collections')
 	user_description = CharField()
+	user_id = ForeignKeyField(User, backref='users')
 
 	class Meta:
   		database = DATABASE

@@ -1,4 +1,5 @@
 import models
+from models import Collection, ShowCollection, Show
 from flask import Blueprint, request, jsonify
 from playhouse.shortcuts import model_to_dict
 from flask_login import current_user, login_required
@@ -47,8 +48,6 @@ def get_collection(id):
 def create_collection():
 	try:
 		payload = request.get_json()
-
-		print('in create collection. this is the logged in user', current_user.id)
 		collection = models.Collection.create(
 			name = payload['name'],
 			description = payload['description'],
@@ -73,7 +72,6 @@ def delete_collection(id):
 		collection = models.Collection.get_by_id(id)
 
 		if current_user == collection.user_id:
-			print('inside if. current user is collection user')
 			collection.delete_instance(recursive=True)
 
 			return jsonify(
