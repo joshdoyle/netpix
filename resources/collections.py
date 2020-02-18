@@ -34,8 +34,11 @@ def get_collection(id):
 			message=f"Found collection with id: {collection.id}.",
 			status=200
 		), 200
-	except Exception as e:
-		raise e
+	except models.Collection.DoesNotExist:
+		return jsonify(
+			message=f"Collection: {id} does not exist.",
+			status=204
+		), 204
 
 
 # Create
@@ -64,38 +67,57 @@ def create_collection():
 
 # Destroy
 @collections.route('/<id>', methods=['Delete'])
+@login_required
 def delete_collection(id):
-	# TODO 2/15/20, 4:24 PM :Add logic to only let user delete their collections
 	try:
 		collection = models.Collection.get_by_id(id)
-		collection.delete_instance(recursive=True)
 
-		return jsonify(
-	        data={}, 
-	        message=f"Deleted collection with id: {id}",
-	        status=200
-      	), 200
+		if current_user == collection.user_id:
+			print('inside if. current user is collection user')
+			collection.delete_instance(recursive=True)
+
+			return jsonify(
+		        data={}, 
+		        message=f"Deleted collection with id: {id}",
+		        status=200
+	      	), 200
+		else:
+			return jsonify(
+				data={},
+				message="This collection belongs to a different user.",
+				status=403
+				),403
 	
 	except Exception as e:
 		raise e
 
 # Update
 @collections.route('/<id>', methods=['PUT'])
+@login_required
 def update_collection(id):
 	payload = request.get_json()
-
 	collection = models.Collection.get_by_id(id)
-	collection.name = payload['name'] if 'name' in payload else None
-	collection.description = payload['description'] if 'description' in payload else None
-	collection.category = payload['category'] if 'category' in payload else None
 
-	collection.save()
+	if current_user == collection.user_id:
+		collection.name = payload['name'] if 'name' in payload else None
+		collection.description = payload['description'] if 'description' in payload else None
+		collection.category = payload['category'] if 'category' in payload else None
 
-	collection_dict = model_to_dict(collection)
+		collection.save()
 
-	return jsonify(
-		data=collection_dict,
-		message=f'Updated collection with id: {collection.id}',
-		status=200
-	), 200	
+		collection_dict = model_to_dict(collection)
+
+		return jsonify(
+			data=collection_dict,
+			message=f'Updated collection: {collection.id}',
+			status=200
+		), 200	
+
+	else:
+		return jsonify(
+			data={},
+			message="This collection belongs to a different user.",
+			status=403
+			),403
+
 	
