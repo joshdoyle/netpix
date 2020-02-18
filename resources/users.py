@@ -82,3 +82,20 @@ def logout():
 		message="Logged out.",
 		status=200
 	), 200
+
+
+# helper routes
+# index
+@users.route('/', methods=['GET'])
+def get_users():
+	try:
+		users = models.User.select()
+		users_dict = [model_to_dict(u) for u in users]
+
+		return jsonify(
+			data=users_dict,
+			message=f"Retrieved {len(users_dict)} users.",
+			status=200
+		), 200
+	except Exception as e:
+		raise e	

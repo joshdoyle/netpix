@@ -30,11 +30,19 @@ def get_show_collection(id):
 
 		show_collection_dict = __get_show_collection(id)
 
-		return jsonify(
-			data=show_collection_dict,
-			message=f"Found shows included in collection: {id}.",
-			status=200
-		), 200
+		if show_collection_dict['records_returned'] == 0:
+			return jsonify(
+				message=f"Collection: {id} does not exist.",
+				status=204
+			), 204
+
+		else:
+			return jsonify(
+				data=show_collection_dict,
+				message=f"Found shows for collection: {id}.",
+				status=200
+			), 200
+
 	except Exception as e:
 		raise e
 

@@ -1,6 +1,7 @@
 import models
 from flask import Blueprint, request, jsonify
 from playhouse.shortcuts import model_to_dict
+from flask_login import current_user, login_required
 
 collections = Blueprint('collections', 'collections')
 
@@ -39,18 +40,20 @@ def get_collection(id):
 
 # Create
 @collections.route('/', methods=['POST'])
+@login_required
 def create_collection():
 	try:
 		payload = request.get_json()
-		print(payload)
-		
+
+		print('in create collection. this is the logged in user', current_user.id)
 		collection = models.Collection.create(
 			name = payload['name'],
 			description = payload['description'],
-			category = payload['category']
+			category = payload['category'],
+			user_id = current_user.id
 		)
 		collection_dict = model_to_dict(collection)
-		print('here is the collection:', collection_dict)
+
 		return jsonify(
 			data=collection_dict,
 			status={'message': 'Created collection'}
@@ -65,7 +68,7 @@ def delete_collection(id):
 	# TODO 2/15/20, 4:24 PM :Add logic to only let user delete their collections
 	try:
 		collection = models.Collection.get_by_id(id)
-		collection.delete_instance()
+		collection.delete_instance(recursive=True)
 
 		return jsonify(
 	        data={}, 

@@ -17,6 +17,7 @@ class Collection(Model):
 	name = CharField()
 	description = CharField()
 	category = CharField()
+	user_id = ForeignKeyField(User, backref='users')
 
 	class Meta:
   		database = DATABASE
